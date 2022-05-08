@@ -2,11 +2,12 @@
 set -eux
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
+mv ~/.vim/undo /tmp/undo.old
 rm -rf ~/.vim || true
 rm -rf $HOME/.dotfiles || true
 mv ~/.vimrc ~/.vimrc.old || true
 mv ~/.gvimrc ~/.gvimrc.old || true
-mkdir -p ~/.vim/undo || true
+mv /tmp/undo.old ~/.vim/undo
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
