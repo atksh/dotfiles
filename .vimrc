@@ -1,49 +1,86 @@
+" vim-plug
+call plug#begin()
+  Plug 'psf/black', { 'branch': 'stable' }
+call plug#end()
+
+" black on save
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end
+
+" kite
+let g:kite_tab_complete=1
+let g:jedi#auto_initialization=1
+
+
 " setting
+"文字コードをUFT-8に設定
 set fenc=utf-8
-
-" visual
-set number
-set relativenumber
-set cursorline
-set visualbell
-set showmatch
-set laststatus=2
+" バックアップファイルを作らない
+set nobackup
+" スワップファイルを作らない
+set noswapfile
+" 編集中のファイルが変更されたら自動で読み直す
+set autoread
+" バッファが編集中でもその他のファイルを開けるように
+set hidden
+" 入力中のコマンドをステータスに表示する
 set showcmd
-set statusline=[%n]
-set statusline+=%{matchstr(hostname(),'\\w\\+')}@
-set statusline+=%<%F
-set statusline+=%m
-set statusline+=%r
-set statusline+=[%{&fileformat}]
-set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-set statusline+=%y
+set mouse=n
+" hhkb対策
+command W w
+command Q q
+command WQ wq
+command Wq qw
 
 
+" 見た目系
+" 相対行番号を表示
+set relativenumber
+" 現在の行を強調表示
+set cursorline
+set laststatus=2
+" 行末の1文字先までカーソルを移動できるように
+set virtualedit=onemore
+" インデントはスマートインデント
+set smartindent
+" 括弧入力時の対応する括弧を表示
+set showmatch
+" コマンドラインの補完
+set wildmode=list:longest
+" 折り返し時に表示行単位での移動できるようにする
 nnoremap j gj
 nnoremap k gk
+" シンタックスハイライトの有効化
 syntax enable
-" カーソルが何行目の何列目に置かれているか
-set ruler
+set noerrorbells
+set visualbell
 
 
 " Tab系
 " 不可視文字を可視化(タブが「▸-」と表示される)
 set list listchars=tab:\▸\-
-set smartindent
-set tabstop=4
-set autoindent
+" Tab文字を半角スペースにする
 set expandtab
-set shiftwidth=4
-let python_highlight_all = 1
-set clipboard=unnamed,autoselect
+" 行頭以外のTab文字の表示幅（スペースいくつ分）
+set tabstop=2
+" 行頭でのTab文字の表示幅
+set shiftwidth=2
 
 
 " 検索系
+" 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
+" 検索文字列に大文字が含まれている場合は区別して検索する
 set smartcase
+" 検索文字列入力時に順次対象文字列にヒットさせる
 set incsearch
+" 検索時に最後まで行ったら最初に戻る
 set wrapscan
+" 検索語をハイライト表示
 set hlsearch
+" ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " 戻るを永続化
@@ -52,47 +89,4 @@ if has('persistent_undo')
   set undofile
 endif
 
-" 挿入モードでクリップボードからペーストする時に自動でインデントさせないようにする
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
 
-    function XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
-
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
-
-" Others
-"ハイフンを単語に含める
-set isk+=-
-
-"スペルチェック時に日本語を除外する
-set spelllang=en,cjk
-
-" インサートモードから抜けるときにペーストモードを解除する
-autocmd InsertLeave * set nopaste
-
-
-"syntax markdown
-au BufRead,BufNewFile *.md set filetype=markdown
-
-"------- Cursor -----"
-"挿入モードでカーソル形状を変更する
-let &t_SI.="\e[6 q"
-let &t_EI.="\e[2 q"
-"カーソル形状がすぐに元に戻らないのでタイムアウト時間を調整
-set ttimeoutlen=10
-"挿入モードを抜けた時にカーソルが見えなくなる現象対策(なぜかこれで治る)
-inoremap <ESC> <ESC>
-set mouse=a
-
-
-" :W と :Q を :w と :q と認識させる
-command W w
-command Q q
-command WQ wq
-command Wq wq
