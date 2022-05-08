@@ -12,6 +12,7 @@ augroup end
 " kite
 let g:kite_tab_complete=1
 let g:jedi#auto_initialization=1
+let g:kite_snippets=0
 
 
 " setting
@@ -56,8 +57,6 @@ nnoremap j gj
 nnoremap k gk
 " シンタックスハイライトの有効化
 syntax enable
-set noerrorbells
-set visualbell
 
 
 " Tab系
