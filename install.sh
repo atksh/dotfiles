@@ -2,7 +2,8 @@
 set -eux
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
-mv ~/.vim/undo /tmp/undo.old
+mkdir -p ~/.vim/undo || true
+mv ~/.vim/undo ~/.undo.old
 rm -rf ~/.vim || true
 rm -rf $HOME/.dotfiles || true
 mv ~/.vimrc ~/.vimrc.old || true
