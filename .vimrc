@@ -1,97 +1,98 @@
-set runtimepath+=~/.vim_runtime
+" setting
+set fenc=utf-8
 
-source ~/.vim_runtime/vimrcs/basic.vim
-source ~/.vim_runtime/vimrcs/filetypes.vim
-source ~/.vim_runtime/vimrcs/plugins_config.vim
-source ~/.vim_runtime/vimrcs/extended.vim
-source ~/.vim_runtime/vimrcs/my_configs.vim
+" visual
+set number
+set relativenumber
+set cursorline
+set visualbell
+set showmatch
+set laststatus=2
+set showcmd
+set statusline=[%n]
+set statusline+=%{matchstr(hostname(),'\\w\\+')}@
+set statusline+=%<%F
+set statusline+=%m
+set statusline+=%r
+set statusline+=[%{&fileformat}]
+set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+set statusline+=%y
 
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+nnoremap j gj
+nnoremap k gk
+syntax enable
+" カーソルが何行目の何列目に置かれているか
+set ruler
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Tab系
+" 不可視文字を可視化(タブが「▸-」と表示される)
+set list listchars=tab:\▸\-
+set smartindent
+set tabstop=4
+set autoindent
+set expandtab
+set shiftwidth=4
+let python_highlight_all = 1
+set clipboard=unnamed,autoselect
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-" 
-"
-"
-Plugin 'octol/vim-cpp-enhanced-highlight'
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
+" 検索系
+set ignorecase
+set smartcase
+set incsearch
+set wrapscan
+set hlsearch
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-let g:cpp_no_function_highlight = 1
-let g:cpp_simple_highlight = 1
-let g:cpp_named_requirements_highlight = 1
-
-" original http://stackoverflow.com/questions/12374200/using-uncrustify-with-vim/15513829#15513829
-function! Preserve(command)
-    " Save the last search.
-    let search = @/
-    " Save the current cursor position.
-    let cursor_position = getpos('.')
-    " Save the current window position.
-    normal! H
-    let window_position = getpos('.')
-    call setpos('.', cursor_position)
-    " Execute the command.
-    execute a:command
-    " Restore the last search.
-    let @/ = search
-    " Restore the previous window position.
-    call setpos('.', window_position)
-    normal! zt
-    " Restore the previous cursor position.
-    call setpos('.', cursor_position)
-endfunction
-
-function! Autopep8()
-    call Preserve(':silent %!autopep8 -')
-endfunction
-
-" Shift + F で自動修正
-autocmd FileType python nnoremap <S-e> :call Autopep8()<CR>
-
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+" 戻るを永続化
+if has('persistent_undo')
+  set undodir=~/.vim/undo
+  set undofile
 endif
+
+" 挿入モードでクリップボードからペーストする時に自動でインデントさせないようにする
+if &term =~ "xterm"
+    let &t_SI .= "\e[?2004h"
+    let &t_EI .= "\e[?2004l"
+    let &pastetoggle = "\e[201~"
+
+    function XTermPasteBegin(ret)
+        set paste
+        return a:ret
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
+
+" Others
+"ハイフンを単語に含める
+set isk+=-
+
+"スペルチェック時に日本語を除外する
+set spelllang=en,cjk
+
+" インサートモードから抜けるときにペーストモードを解除する
+autocmd InsertLeave * set nopaste
+
+
+"syntax markdown
+au BufRead,BufNewFile *.md set filetype=markdown
+
+"------- Cursor -----"
+"挿入モードでカーソル形状を変更する
+let &t_SI.="\e[6 q"
+let &t_EI.="\e[2 q"
+"カーソル形状がすぐに元に戻らないのでタイムアウト時間を調整
+set ttimeoutlen=10
+"挿入モードを抜けた時にカーソルが見えなくなる現象対策(なぜかこれで治る)
+inoremap <ESC> <ESC>
+set mouse=a
+
+
+" :W と :Q を :w と :q と認識させる
+command W w
+command Q q
+command WQ wq
+command Wq wq
