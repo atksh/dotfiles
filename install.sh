@@ -26,4 +26,3 @@ vim -c :Black -c BlackUpdate -c :q! /tmp/abcdef
 mkdir -p ~/.vim/pack/kite/start/kite
 git clone --depth=1 --recursive \
   https://github.com/kiteco/vim-plugin.git ~/.vim/pack/kite/start/kite/
-
