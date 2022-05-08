@@ -37,8 +37,8 @@ command Wq qw
 
 
 " 見た目系
-" を表示
-set nonumber
+" 行番号を表示
+set number
 " 相対行番号を表示
 set relativenumber
 " 現在の行を強調表示
