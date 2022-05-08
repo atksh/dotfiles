@@ -10,9 +10,17 @@ augroup black_on_save
 augroup end
 
 " kite
+" disable auto complete for speed
+let g:kite_auto_complete=1
+let g:kite_supported_languages = ['*']
 let g:kite_tab_complete=1
-let g:jedi#auto_initialization=1
-let g:kite_snippets=0
+let g:kite_snippets=1
+" kite's must setting
+set belloff+=ctrlg
+set completeopt+=menuone
+set completeopt+=noselect
+set completeopt+=preview
+autocmd CompleteDone * if !pumvisible() | pclose | endif
 
 
 " setting
@@ -44,6 +52,7 @@ set relativenumber
 " 現在の行を強調表示
 set cursorline
 set laststatus=2
+set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 " 行末の1文字先までカーソルを移動できるように
 set virtualedit=onemore
 " インデントはスマートインデント
