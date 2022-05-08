@@ -83,6 +83,9 @@ set wrapscan
 set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" -/_で単語を分割する
+set iskeyword+=-
+set iskeyword+=_
 
 " 戻るを永続化
 if has('persistent_undo')
