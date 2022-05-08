@@ -14,7 +14,7 @@ augroup end
 let g:kite_auto_complete=1
 let g:kite_supported_languages = ['*']
 let g:kite_tab_complete=1
-let g:kite_snippets=1
+let g:kite_snippets=0
 " kite's must setting
 set belloff+=ctrlg
 set completeopt+=menuone
