@@ -49,8 +49,6 @@ command Wq qw
 set number
 " 相対行番号を表示
 set relativenumber
-" 現在の行を強調表示
-set cursorline
 set laststatus=2
 set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 " 行末の1文字先までカーソルを移動できるように
