@@ -1,6 +1,18 @@
 #!/bin/bash
 set -eux
 
+### CONFIG ###
+GOVERSION=1.19.3
+OS=linux
+ARCH=amd64
+OPENSSL_VERSION=1.1.1s
+LIBFFI_VERSION=3.4.4
+SQLITE_YEAR=2022
+SQLITE_VERSION=3400000
+PYTHON_VERSION=3.9.14
+### END ###
+
+
 workspace=/tmp/$(uuidgen)
 prefix=$HOME/.local
 
@@ -11,9 +23,7 @@ mkdir -p $workspace
 mkdir -p $prefix
 rm -rf $prefix/* || true
 
-# # install GO
-GOVERSION=1.17.3 OS=linux ARCH=amd64  # change this as you need
-
+# install GO
 cd $workspace
 wget -O $prefix/go${GOVERSION}.${OS}-${ARCH}.tar.gz \
   https://dl.google.com/go/go${GOVERSION}.${OS}-${ARCH}.tar.gz
@@ -31,8 +41,6 @@ make -j$(nproc)
 make install
 
 # install openssl
-OPENSSL_VERSION=1.1.1o
-# 
 cd $workspace
 wget -O openssl-${OPENSSL_VERSION}.tar.gz \
   https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
@@ -43,9 +51,7 @@ make -j1 depend
 make -j$(nproc)
 make install_sw
 
-# install libffi
-LIBFFI_VERSION=3.4.2
-
+# install libffid
 cd $workspace
 wget -O libffi-${LIBFFI_VERSION}.tar.gz \
   https://github.com/libffi/libffi/releases/download/v${LIBFFI_VERSION}/libffi-${LIBFFI_VERSION}.tar.gz
@@ -57,17 +63,15 @@ make install
 
 # install sqlite3
 cd $workspace
-wget -O sqlite-autoconf-3400000.tar.gz \
-  https://www.sqlite.org/2022/sqlite-autoconf-3400000.tar.gz
-tar -zxvf sqlite-autoconf-3400000.tar.gz
-cd sqlite-autoconf-3400000
+wget -O sqlite-autoconf-${SQLITE_VERSION}.tar.gz \
+  https://www.sqlite.org/${SQLITE_YEAR}/sqlite-autoconf-${SQLITE_VERSION}.tar.gz
+tar -zxvf sqlite-autoconf-${SQLITE_VERSION}.tar.gz
+cd sqlite-autoconf-${SQLITE_VERSION}
 ./configure --prefix=$prefix
 make -j$(nproc)
 make install
 
 # install python
-PYTHON_VERSION=3.10.4
-
 cd $workspace
 wget -O Python-${PYTHON_VERSION}.tar.xz \
   https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz
@@ -97,17 +101,27 @@ rm $prefix/bin/python || true
 ln -s $prefix/bin/python3 $prefix/bin/python
 
 # install aws cli
-pip install -U pip setuptools wheel
-pip install https://github.com/boto/botocore/archive/v2.tar.gz
-pip install https://github.com/aws/aws-cli/archive/v2.tar.gz
+pip install -U pip setuptools wheel --no-cache-dir
+pip install https://github.com/boto/botocore/archive/v2.tar.gz --no-cache-dir
+pip install https://github.com/aws/aws-cli/archive/v2.tar.gz --no-cache-dir
+mkdir $HOME/.aws
+touch $HOME/.aws/credentials
+touch $HOME/.aws/config
+echo "[default]" >> $HOME/.aws/credentials
+echo "aws_access_key_id=" >> $HOME/.aws/credentials
+echo "aws_secret_access_key" >> $HOME/.aws/credentials
+echo "[default]" >> $HOME/.aws/config
+echo "region=ap-northeast-1" >> $HOME/.aws/config
+echo "output=json" >> $HOME/.aws/config
 
 # clean up
 rm -rf $workspace
-rm -rf $prefix/go
 
 # env
 cd ~
 touch $HOME/.bash_profile
+LINE_TO_ADD="export PATH=${prefix}/go/bin:\$PATH"
+if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
 LINE_TO_ADD="export PATH=${prefix}/bin:\$PATH"
 if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
 LINE_TO_ADD="export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
