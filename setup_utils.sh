@@ -123,8 +123,8 @@ rm -rf $workspace
 cd ~
 touch $HOME/.bash_profile
 
-echo "PATH=${prefix}/go/bin:\$PATH" >> $HOME/.bash_profile
-echo "PATH=${prefix}/bin:\$PATH" >> $HOME/.bash_profile
-echo "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH" >> $HOME/.bash_profile
+echo "export PATH=${prefix}/go/bin:\$PATH" >> $HOME/.bash_profile
+echo "export PATH=${prefix}/bin:\$PATH" >> $HOME/.bash_profile
+echo "export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH" >> $HOME/.bash_profile
 
 source $HOME/.bash_profile
