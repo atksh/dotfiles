@@ -128,8 +128,8 @@ add_to_bash_profile (){
   if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
 }
 
-add_to_bash_profile "PATH=${prefix}/go/bin:\$PATH"
-add_to_bash_profile "PATH=${prefix}/bin:\$PATH"
-add_to_bash_profile "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
+echo "PATH=${prefix}/go/bin:\$PATH" >> $HOME/.bash_profile
+echo "PATH=${prefix}/bin:\$PATH" >> $HOME/.bash_profile
+echo "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH" >> $HOME/.bash_profile
 
 source $HOME/.bash_profile
