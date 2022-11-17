@@ -107,6 +107,7 @@ rm -rf $prefix/go
 
 # env
 cd ~
+touch $HOME/.bash_profile
 LINE_TO_ADD="export PATH=${prefix}/bin:\$PATH"
 if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
 LINE_TO_ADD="export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
