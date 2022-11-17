@@ -111,7 +111,7 @@ touch $HOME/.aws/credentials
 touch $HOME/.aws/config
 echo "[default]" >> $HOME/.aws/credentials
 echo "aws_access_key_id=" >> $HOME/.aws/credentials
-echo "aws_secret_access_key" >> $HOME/.aws/credentials
+echo "aws_secret_access_key=" >> $HOME/.aws/credentials
 echo "[default]" >> $HOME/.aws/config
 echo "region=ap-northeast-1" >> $HOME/.aws/config
 echo "output=json" >> $HOME/.aws/config
