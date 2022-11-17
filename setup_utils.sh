@@ -115,16 +115,27 @@ echo "[default]" >> $HOME/.aws/config
 echo "region=ap-northeast-1" >> $HOME/.aws/config
 echo "output=json" >> $HOME/.aws/config
 
+# rootless docker
+curl -fsSL https://get.docker.com/rootless | sh
+
 # clean up
 rm -rf $workspace
 
 # env
 cd ~
 touch $HOME/.bash_profile
-LINE_TO_ADD="export PATH=${prefix}/go/bin:\$PATH"
-if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
-LINE_TO_ADD="export PATH=${prefix}/bin:\$PATH"
-if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
-LINE_TO_ADD="export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
-if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
+
+add_to_bash_profile (){
+  LINE_TO_ADD="export $1"
+  if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
+}
+
+add_to_bash_profile "PATH=${prefix}/go/bin:\$PATH"
+add_to_bash_profile "PATH=${prefix}/bin:\$PATH"
+add_to_bash_profile "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
+add_to_bash_profile "PATH=$HOME/bin:\$PATH"
+add_to_bash_profile "PATH=/sbin:\$PATH"
+add_to_bash_profile "DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock"
+add_to_bash_profile "systemctl --user start docker"
+
 source $HOME/.bash_profile
