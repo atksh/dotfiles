@@ -57,10 +57,10 @@ make install
 
 # install sqlite3
 cd $workspace
-wget -O sqlite-autoconf.tar.gz \
+wget -O sqlite-autoconf-3400000.tar.gz \
   https://www.sqlite.org/2022/sqlite-autoconf-3400000.tar.gz
-tar -zxvf sqlite-autoconf.tar.gz
-cd sqlite-autoconf
+tar -zxvf sqlite-autoconf-3400000.tar.gz
+cd sqlite-autoconf-3400000
 ./configure --prefix=$prefix
 make -j$(nproc)
 make install
