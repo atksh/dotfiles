@@ -37,7 +37,6 @@ set number
 " 相対行番号を表示
 set relativenumber
 set laststatus=2
-set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 " 行末の1文字先までカーソルを移動できるように
 set virtualedit=onemore
 " インデントはスマートインデント
