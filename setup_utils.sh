@@ -102,6 +102,7 @@ rm $prefix/bin/python || true
 ln -s $prefix/bin/python3 $prefix/bin/python
 
 # install aws cli
+rm -rf $HOME/.aws || true
 pip install -U pip setuptools wheel --no-cache-dir
 pip install https://github.com/boto/botocore/archive/v2.tar.gz --no-cache-dir
 pip install https://github.com/aws/aws-cli/archive/v2.tar.gz --no-cache-dir
@@ -117,6 +118,7 @@ echo "output=json" >> $HOME/.aws/config
 
 # rootless docker
 curl -fsSL https://get.docker.com/rootless | sh
+pip install docker-compose --no-cache-dir
 
 # clean up
 rm -rf $workspace
