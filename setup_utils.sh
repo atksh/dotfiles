@@ -123,11 +123,6 @@ rm -rf $workspace
 cd ~
 touch $HOME/.bash_profile
 
-add_to_bash_profile (){
-  LINE_TO_ADD="export $1"
-  if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
-}
-
 echo "PATH=${prefix}/go/bin:\$PATH" >> $HOME/.bash_profile
 echo "PATH=${prefix}/bin:\$PATH" >> $HOME/.bash_profile
 echo "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH" >> $HOME/.bash_profile
