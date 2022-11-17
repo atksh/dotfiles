@@ -75,6 +75,7 @@ export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
   --with-openssl-rpath=auto \
   --with-system-ffi \
   --enable-shared \
+  --enable-loadable-sqlite-extensions \
   --without-ensurepip
 make -j$(nproc)
 make install
@@ -86,6 +87,7 @@ rm $prefix/bin/python || true
 ln -s $prefix/bin/python3 $prefix/bin/python
 
 # install aws cli
+pip install -U pip setuptools wheel
 pip install https://github.com/boto/botocore/archive/v2.tar.gz
 pip install https://github.com/aws/aws-cli/archive/v2.tar.gz
 
