@@ -55,6 +55,16 @@ cd libffi-${LIBFFI_VERSION}
 make -j$(nproc)
 make install
 
+# install sqlite3
+cd $workspace
+wget -O sqlite-autoconf.tar.gz \
+  https://www.sqlite.org/2022/sqlite-autoconf-3400000.tar.gz
+tar -zxvf sqlite-autoconf.tar.gz
+cd sqlite-autoconf
+./configure --prefix=$prefix
+make -j$(nproc)
+make install
+
 # install python
 PYTHON_VERSION=3.10.4
 
@@ -91,10 +101,14 @@ pip install -U pip setuptools wheel
 pip install https://github.com/boto/botocore/archive/v2.tar.gz
 pip install https://github.com/aws/aws-cli/archive/v2.tar.gz
 
-# env
-echo "export PATH=\$PATH:$HOME/.local/bin" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$HOME/.local/lib" >> ~/.bashrc
-
 # clean up
 rm -rf $workspace
 rm -rf $prefix/go
+
+# env
+cd ~
+LINE_TO_ADD="export PATH=${prefix}/bin:\$PATH"
+if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
+LINE_TO_ADD="export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
+if grep -q -v "${LINE_TO_ADD}" $HOME/.bash_profile; then echo "${LINE_TO_ADD}" >> $HOME/.bash_profile; fi
+source $HOME/.bash_profile
