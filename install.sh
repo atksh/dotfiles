@@ -23,8 +23,3 @@ cp .vimrc .gvimrc .tmux.conf $HOME/.dotfiles
 # install pluings
 vim -es -u ~/.vimrc +PlugInstall +qa
 vim -c :Black -c BlackUpdate -c :q! /tmp/abcdef
-
-# kite
-mkdir -p ~/.vim/pack/kite/start/kite
-git clone --depth=1 --recursive \
-  https://github.com/kiteco/vim-plugin.git ~/.vim/pack/kite/start/kite/
