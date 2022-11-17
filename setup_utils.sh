@@ -116,10 +116,6 @@ echo "[default]" >> $HOME/.aws/config
 echo "region=ap-northeast-1" >> $HOME/.aws/config
 echo "output=json" >> $HOME/.aws/config
 
-# rootless docker
-curl -fsSL https://get.docker.com/rootless | sh
-pip install docker-compose --no-cache-dir
-
 # clean up
 rm -rf $workspace
 
@@ -135,9 +131,5 @@ add_to_bash_profile (){
 add_to_bash_profile "PATH=${prefix}/go/bin:\$PATH"
 add_to_bash_profile "PATH=${prefix}/bin:\$PATH"
 add_to_bash_profile "LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH"
-add_to_bash_profile "PATH=$HOME/bin:\$PATH"
-add_to_bash_profile "PATH=/sbin:\$PATH"
-add_to_bash_profile "DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock"
-add_to_bash_profile "systemctl --user start docker"
 
 source $HOME/.bash_profile
