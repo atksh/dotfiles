@@ -5,6 +5,7 @@ set -eux
 GOVERSION=1.19.3
 OS=linux
 ARCH=amd64
+SINGULARITY_VERSION=3.8
 OPENSSL_VERSION=1.1.1s
 LIBFFI_VERSION=3.4.4
 SQLITE_YEAR=2022
@@ -33,7 +34,7 @@ export PATH="$PATH:$prefix/go/bin"
 
 # install singularity
 cd $workspace
-git clone --branch v3.8.4 --depth=1 https://github.com/hpcng/singularity.git
+git clone --branch v${SINGULARITY_VERSION} --depth=1 https://github.com/hpcng/singularity.git
 cd singularity
 ./mconfig -p $prefix --without-suid
 cd ./builddir
