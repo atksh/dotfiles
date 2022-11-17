@@ -9,19 +9,6 @@ augroup black_on_save
   autocmd BufWritePre *.py Black
 augroup end
 
-" kite
-" disable auto complete for speed
-let g:kite_auto_complete=0
-let g:kite_supported_languages = ['*']
-let g:kite_tab_complete=1
-let g:kite_snippets=0
-" kite's must setting
-set belloff+=ctrlg
-set completeopt+=menuone
-set completeopt+=noselect
-set completeopt+=preview
-autocmd CompleteDone * if !pumvisible() | pclose | endif
-
 
 " setting
 "文字コードをUFT-8に設定
