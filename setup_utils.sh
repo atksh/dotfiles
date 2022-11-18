@@ -100,7 +100,7 @@ $prefix/bin/python3 get-pip.py --user
 
 rm $prefix/bin/python || true
 ln -s $prefix/bin/python3 $prefix/bin/python
-ln -s $prefix/bin/pip $prefix/bin/pip3
+ln -s $prefix/bin/pip3 $prefix/bin/pip
 
 # install aws cli
 rm -rf $HOME/.aws || true
