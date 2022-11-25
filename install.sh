@@ -22,7 +22,6 @@ cp .vimrc .gvimrc .tmux.conf $HOME/.dotfiles
 
 # install pluings
 vim -es -u ~/.vimrc +PlugInstall +qa
-vim -c :Black -c BlackUpdate -c :q! /tmp/abcdef
 
 # setup
 bash setup_utils.sh
