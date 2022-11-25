@@ -1,15 +1,3 @@
-" vim-plug
-call plug#begin()
-  Plug 'psf/black', { 'branch': 'stable' }
-call plug#end()
-
-" black on save
-augroup black_on_save
-  autocmd!
-  autocmd BufWritePre *.py Black
-augroup end
-
-
 " setting
 "文字コードをUFT-8に設定
 set fenc=utf-8
@@ -76,13 +64,9 @@ set wrapscan
 set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
-" -/_で単語を分割する
-set iskeyword+=^-
-set iskeyword+=^_
 
 " 戻るを永続化
 if has('persistent_undo')
   set undodir=~/.vim/undo
   set undofile
 endif
-
