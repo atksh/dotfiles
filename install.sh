@@ -24,4 +24,4 @@ cp .vimrc .gvimrc .tmux.conf $HOME/.dotfiles
 vim -es -u ~/.vimrc +PlugInstall +qa
 
 # setup
-bash setup_utils.sh
+# bash setup_utils.sh
